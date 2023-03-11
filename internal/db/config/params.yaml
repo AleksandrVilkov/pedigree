@@ -1,0 +1,6 @@
+login : pedigree
+password : root
+sslmode : disable
+drivername : postgres
+databasename : pedigree
+attemptsconnection : 3
