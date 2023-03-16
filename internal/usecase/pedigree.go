@@ -1,4 +1,4 @@
-package service
+package usecase
 
 // TODO
 func SavePedigree(pedigree Pedigree) error {

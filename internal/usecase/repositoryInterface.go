@@ -1,8 +1,8 @@
-package service
+package usecase
 
 import "context"
 
-type FamilyRepository interface {
+type FamilyRepositoryInterface interface {
 	DeleteFamilyMember(key string) error
 	ReadFamilyMemberById(key string) (FamilyMember, error)
 	UpdateFamilyMember(fm FamilyMember) FamilyMember
@@ -10,12 +10,12 @@ type FamilyRepository interface {
 	ReadFamilyMembersByPedigreeUid(uid string) ([]FamilyMember, error)
 }
 
-type UserRepository interface {
-	CreateUser(ctx context.Context, user User) (int, error)
+type UserRepositoryInterface interface {
+	CreateUser(ctx context.Context, user *User) (int, error)
 	ReadUserById(ctx context.Context, username, password string) (User, error)
 }
 
-type PedigreeRepository interface {
+type PedigreeRepositoryInterface interface {
 	DeletePedigree(key string) error
 	ReadPedigreeById(key string) (Pedigree, error)
 	CreatePedigree(pedigree Pedigree) (int, error)

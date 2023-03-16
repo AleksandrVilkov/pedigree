@@ -11,8 +11,28 @@ import (
 )
 
 const (
-	PARAMS_PATH = "/home/vilkov/GolandProjects/pedigree/internal/db/config/params.yaml"
+	PARAMS_PATH = "/home/vilkov/GolandProjects/pedigree/internal/storage/config/params.yaml"
+
+	INSERT_INTO = "INSERT INTO "
+	DELETE_FROM = "DELETE FROM"
+	WHERE       = "WHERE"
+	VALUES      = "VALUES "
+	SELECT      = "SELECT "
+	FROM        = "FROM "
+
+	DATE_PATTERN              = "2006-01-02"
+	FAMILY_MEMBERS_TABLE_NAME = "FAMILYMEMBERS "
+	PEDIGREE_TABLE_NAME       = "pedigree"
 )
+
+type Params struct {
+	Login              string `yaml:"login"`
+	Password           string `yaml:"password"`
+	SslMode            string `yaml:"sslmode"`
+	DriverName         string `yaml:"drivername"`
+	DatabaseName       string `yaml:"databasename"`
+	AttemptsConnection int    `yaml:"attemptsconnection"`
+}
 
 type PostgreSQL struct {
 }
