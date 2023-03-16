@@ -7,8 +7,8 @@ import (
 func TestCreatePedigree(t *testing.T) {
 	//psql := storage.Storage{}
 	//count := 3
-	//familyMembers := make([]service.FamilyMember, count)
-	//p := service.Pedigree{
+	//familyMembers := make([]usecase.FamilyMember, count)
+	//p := usecase.Pedigree{
 	//	Uid:             uuid.New().String(),
 	//	CreatedDate:     time.Now(),
 	//	LastUpdatedDate: time.Now(),
@@ -16,7 +16,7 @@ func TestCreatePedigree(t *testing.T) {
 	//}
 	//
 	//for i := 0; i < count; i++ {
-	//	familyMembers[i] = service.FamilyMember{
+	//	familyMembers[i] = usecase.FamilyMember{
 	//		Uid:             uuid.New().String(),
 	//		CreatedDate:     time.Now(),
 	//		LastUpdatedDate: time.Now(),

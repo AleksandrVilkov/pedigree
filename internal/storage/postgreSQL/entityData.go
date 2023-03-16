@@ -1,7 +1,7 @@
 package postgreSQL
 
 import (
-	"pedigree/internal/service"
+	"pedigree/internal/usecase"
 	"time"
 )
 
@@ -24,9 +24,9 @@ type FamilyMemberData struct {
 	Note               string
 }
 
-func (fmd *FamilyMemberData) toModel() *service.FamilyMember {
+func (fmd *FamilyMemberData) toModel() *usecase.FamilyMember {
 	//TODO
-	return &service.FamilyMember{
+	return &usecase.FamilyMember{
 		ID:                 "",
 		CreatedDate:        time.Time{},
 		LastUpdatedDate:    time.Time{},
@@ -37,7 +37,7 @@ func (fmd *FamilyMemberData) toModel() *service.FamilyMember {
 		MaidenName:         "",
 		DoB:                time.Time{},
 		DoD:                time.Time{},
-		MainPlaceResidence: service.Location{},
+		MainPlaceResidence: usecase.Location{},
 		Mother:             nil,
 		Father:             nil,
 		Children:           nil,
@@ -46,7 +46,7 @@ func (fmd *FamilyMemberData) toModel() *service.FamilyMember {
 	}
 }
 
-func toPostgreSQLFamilyMember(fm *service.FamilyMember) *FamilyMemberData {
+func toPostgreSQLFamilyMember(fm *usecase.FamilyMember) *FamilyMemberData {
 	return &FamilyMemberData{
 		ID:                 0,
 		PedigreeID:         0,
@@ -74,8 +74,8 @@ type PedigreeData struct {
 	OwnerID         int
 }
 
-func (pd *PedigreeData) toModel() *service.Pedigree {
-	return &service.Pedigree{
+func (pd *PedigreeData) toModel() *usecase.Pedigree {
+	return &usecase.Pedigree{
 		ID:              "",
 		CreatedDate:     time.Time{},
 		LastUpdatedDate: time.Time{},
@@ -85,7 +85,7 @@ func (pd *PedigreeData) toModel() *service.Pedigree {
 	}
 }
 
-func toPedigreeData(p *service.Pedigree) *PedigreeData {
+func toPedigreeData(p *usecase.Pedigree) *PedigreeData {
 	return &PedigreeData{
 		ID:              0,
 		CreatedDate:     time.Time{},
@@ -105,8 +105,8 @@ type UserData struct {
 	HasPedigree     bool
 }
 
-func (u *UserData) toModel() *service.User {
-	return &service.User{
+func (u *UserData) toModel() *usecase.User {
+	return &usecase.User{
 		ID:                   "",
 		CreatedDate:          time.Time{},
 		LastUpdatedDate:      time.Time{},
@@ -118,7 +118,7 @@ func (u *UserData) toModel() *service.User {
 	}
 }
 
-func toUserData(u *service.User) *UserData {
+func toUserData(u *usecase.User) *UserData {
 	return &UserData{
 		ID:              0,
 		CreatedDate:     time.Time{},

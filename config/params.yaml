@@ -1,0 +1,14 @@
+port: 2233
+
+auth:
+    hash_salt: "hash_salt"
+    signing_key: "signing_key"
+    token_ttl: 86400
+
+psql:
+    login: pedigree
+    password: root
+    sslmode: disable
+    drivername: postgres
+    databasename: pedigree
+    attemptsconnection: 3

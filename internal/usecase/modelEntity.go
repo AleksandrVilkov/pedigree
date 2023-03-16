@@ -1,4 +1,4 @@
-package service
+package usecase
 
 import (
 	"time"
@@ -9,6 +9,7 @@ type User struct {
 	CreatedDate          time.Time
 	LastUpdatedDate      time.Time
 	Role                 Role
+	Login                string
 	FirstName            string
 	LastName             string
 	Password             []byte
