@@ -36,3 +36,11 @@ func (a *AuthHandler) SignUp(c *gin.Context) {
 	}
 	c.Status(http.StatusOK)
 }
+func (a *AuthHandler) SignIn(c *gin.Context) {
+	//TODO сделать авторизацию по jwt
+	/*
+		Токен передается клиентом в формате заголовка Authorization: Bearer <token>.
+		Если заголовок некорректен, АПИ должно отвечать статусом 401 Unauthorized.
+		Если же передан валидный токен, мы даем пользователю доступ до запрашиваемых ресурсов.
+	*/
+}

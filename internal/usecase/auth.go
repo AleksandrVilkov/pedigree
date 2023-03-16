@@ -43,5 +43,6 @@ func (a *AuthUseCase) SingUp(ctx context.Context, login, firstName, lastName, pa
 }
 
 func (a *AuthUseCase) SingIn(ctx context.Context, login, pass string) error {
+	//TODO ищем пользователя
 	return nil
 }

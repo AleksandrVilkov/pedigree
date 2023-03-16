@@ -4,3 +4,4 @@
  go get golang.org/x/tools/cmd/cover
  go get github.com/gin-gonic/gin
  go get github.com/spf13/viper
+ go get "github.com/dgrijalva/jwt-go/v4"
