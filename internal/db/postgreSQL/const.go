@@ -1,4 +1,4 @@
-package db
+package postgreSQL
 
 const (
 	INSERT_INTO = "INSERT INTO "

@@ -1,4 +1,4 @@
-package db
+package postgreSQL
 
 type Params struct {
 	Login              string `yaml:"login"`
@@ -6,5 +6,5 @@ type Params struct {
 	SslMode            string `yaml:"sslmode"`
 	DriverName         string `yaml:"drivername"`
 	DatabaseName       string `yaml:"databasename"`
-	attemptsConnection int    `yaml:"attemptsconnection"`
+	AttemptsConnection int    `yaml:"attemptsconnection"`
 }

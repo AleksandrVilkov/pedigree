@@ -1,4 +1,4 @@
-package entiry
+package service
 
 type Role int
 

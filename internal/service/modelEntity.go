@@ -1,11 +1,11 @@
-package entiry
+package service
 
 import (
 	"time"
 )
 
 type User struct {
-	Uid                  string
+	ID                   string
 	CreatedDate          time.Time
 	LastUpdatedDate      time.Time
 	Role                 Role
@@ -16,7 +16,7 @@ type User struct {
 }
 
 type Pedigree struct {
-	Uid             string
+	ID              string
 	CreatedDate     time.Time
 	LastUpdatedDate time.Time
 	OwnerUid        string
@@ -25,7 +25,7 @@ type Pedigree struct {
 }
 
 type FamilyMember struct {
-	Uid                string
+	ID                 string
 	CreatedDate        time.Time
 	LastUpdatedDate    time.Time
 	PedigreeUid        string

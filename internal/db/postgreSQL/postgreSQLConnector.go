@@ -1,4 +1,4 @@
-package db
+package postgreSQL
 
 import (
 	"database/sql"
@@ -27,7 +27,7 @@ func open() (*sql.DB, error) {
 	connStr := "user=" + params.Login + " password=" + params.Password + " dbname=" + params.DatabaseName + " sslmode=" + params.SslMode
 	var db *sql.DB
 	//на случай, если не удалсь подключиться - пробуем несколько раз
-	for i := 0; i <= params.attemptsConnection; i++ {
+	for i := 0; i <= params.AttemptsConnection; i++ {
 		db, err = sql.Open(params.DriverName, connStr)
 		if err != nil {
 			log.Println("Unsuccessful attempt to connect to DB: ", err)
