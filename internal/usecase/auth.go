@@ -42,10 +42,12 @@ func (a *AuthUsecase) SingUp(login, firstName, lastName, pass string) (int, erro
 
 func (a *AuthUsecase) SingIn(login, pass string) (string, error) {
 	user, err := a.userRepository.ReadUserById(login, getPassWithSalt(pass, a.hashSalt))
+
 	if err != nil {
 		return "", err
 	}
 
+	//TODO чекать пароль
 	token := jwt.NewWithClaims(jwt.SigningMethodES256, &pkgJwt.Claims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: jwt.At(time.Now().Add(a.expireDuration)),

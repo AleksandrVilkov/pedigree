@@ -5,11 +5,11 @@ import (
 	"pedigree/internal/usecase"
 )
 
-func RegisterHTTPEndpoints(router *gin.Engine, ac usecase.AuthUsecase) {
+func RegisterHTTPEndpoints(router *gin.RouterGroup, ac usecase.AuthUsecase) {
+
 	h := NewAuthHandler(&ac)
-	authEndpoints := router.Group("/auth")
 	{
-		authEndpoints.POST("sign-up", h.SignUp)
-		authEndpoints.POST("sign-in", h.SignIn)
+		router.POST("/signUp", h.SignUp)
+		router.POST("/signIn", h.SignIn)
 	}
 }

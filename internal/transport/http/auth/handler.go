@@ -24,6 +24,7 @@ type SignInInput struct {
 	Login    string `json:"login"`
 	Password string `json:"password"`
 }
+
 type SignUpInput struct {
 	Login     string `json:"login"`
 	LastName  string `json:"lastName"`
@@ -58,7 +59,7 @@ func newSignInResponse(status, msg, token string) *signInResponse {
 	}
 }
 
-/*Регистрация*/
+// SignUp /*Регистрация*/
 func (a *Handler) SignUp(c *gin.Context) {
 	inp := new(SignUpInput)
 	if err := c.BindJSON(inp); err != nil {
@@ -83,7 +84,6 @@ func (a *Handler) SignIn(c *gin.Context) {
 	}
 
 	token, err := a.authUsecase.SingIn(inp.Login, inp.Password)
-
 	if err != nil {
 		handleTokenError(c, err)
 		return
