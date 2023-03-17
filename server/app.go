@@ -15,16 +15,19 @@ import (
 )
 
 type App struct {
+	//Сервер
 	httpServer *http.Server
-
-	AuthUseCase *usecase.AuthUsecase
+	//Бизнес-логика
+	authUsecase     *usecase.AuthUsecase
+	pedigreeUsecase *usecase.PedigreeUsecase
 }
 
 func NewApp() *App {
-	userStorage := storage.UserStorage{}
+
 	return &App{
-		AuthUseCase: usecase.NewAuthUsecase(
-			&userStorage,
+		//Инициализируем логику авторизации пользователя
+		authUsecase: usecase.NewAuthUsecase(
+			&storage.UserStorage{},
 			viper.GetString("auth.hash_salt"),
 			[]byte(viper.GetString("auth.signing_key")),
 			viper.GetDuration("auth.token.ttl"),
@@ -39,7 +42,7 @@ func (a *App) Run(port string) error {
 	)
 
 	//Регистрируем эндпоинты
-	endpoints.RegisterHTTPEndpoints(router, *a.AuthUseCase)
+	endpoints.RegisterHTTPEndpoints(router, *a.authUsecase)
 
 	a.httpServer = &http.Server{
 		Addr:           ":" + port,

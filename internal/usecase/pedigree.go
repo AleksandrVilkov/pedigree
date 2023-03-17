@@ -1,5 +1,9 @@
 package usecase
 
+type PedigreeUsecase struct {
+	pedigreeStorage PedigreeRepositoryInterface
+}
+
 // TODO
 func SavePedigree(pedigree Pedigree) error {
 	return nil
