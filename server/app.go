@@ -9,7 +9,7 @@ import (
 	"os"
 	"os/signal"
 	"pedigree/internal/storage/postgreSQL/storage"
-	endpoints "pedigree/internal/transport/http"
+	endpoints "pedigree/internal/transport/http/auth"
 	"pedigree/internal/usecase"
 	"time"
 )
@@ -17,13 +17,13 @@ import (
 type App struct {
 	httpServer *http.Server
 
-	AuthUseCase *usecase.AuthUseCase
+	AuthUseCase *usecase.AuthUsecase
 }
 
 func NewApp() *App {
 	userStorage := storage.UserStorage{}
 	return &App{
-		AuthUseCase: usecase.NewAuthUseCase(
+		AuthUseCase: usecase.NewAuthUsecase(
 			&userStorage,
 			viper.GetString("auth.hash_salt"),
 			[]byte(viper.GetString("auth.signing_key")),

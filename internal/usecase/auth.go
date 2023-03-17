@@ -1,23 +1,24 @@
 package usecase
 
 import (
-	"context"
 	"crypto/sha1"
+	"github.com/dgrijalva/jwt-go/v4"
+	pkgJwt "pedigree/pkg/jwt"
 	"time"
 )
 
-type AuthUseCase struct {
+type AuthUsecase struct {
 	userRepository UserRepositoryInterface
 	hashSalt       string
 	signingKey     []byte
 	expireDuration time.Duration
 }
 
-func NewAuthUseCase(userRepository UserRepositoryInterface,
+func NewAuthUsecase(userRepository UserRepositoryInterface,
 	hashSalt string,
 	signingKey []byte,
-	expireDuration time.Duration) *AuthUseCase {
-	return &AuthUseCase{
+	expireDuration time.Duration) *AuthUsecase {
+	return &AuthUsecase{
 		userRepository: userRepository,
 		hashSalt:       hashSalt,
 		signingKey:     signingKey,
@@ -25,10 +26,7 @@ func NewAuthUseCase(userRepository UserRepositoryInterface,
 	}
 }
 
-func (a *AuthUseCase) SingUp(ctx context.Context, login, firstName, lastName, pass string) (int, error) {
-	pwd := sha1.New()
-	pwd.Write([]byte(pass))
-	pwd.Write([]byte(a.hashSalt))
+func (a *AuthUsecase) SingUp(login, firstName, lastName, pass string) (int, error) {
 	user := &User{
 		CreatedDate:          time.Now(),
 		LastUpdatedDate:      time.Now(),
@@ -36,13 +34,31 @@ func (a *AuthUseCase) SingUp(ctx context.Context, login, firstName, lastName, pa
 		Login:                login,
 		FirstName:            firstName,
 		LastName:             lastName,
-		Password:             pwd.Sum(nil),
+		Password:             []byte(getPassWithSalt(pass, a.hashSalt)),
 		CreatedPedigreesList: nil,
 	}
-	return a.userRepository.CreateUser(ctx, user)
+	return a.userRepository.CreateUser(user)
 }
 
-func (a *AuthUseCase) SingIn(ctx context.Context, login, pass string) error {
-	//TODO ищем пользователя
-	return nil
+func (a *AuthUsecase) SingIn(login, pass string) (string, error) {
+	user, err := a.userRepository.ReadUserById(login, getPassWithSalt(pass, a.hashSalt))
+	if err != nil {
+		return "", err
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodES256, &pkgJwt.Claims{
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: jwt.At(time.Now().Add(a.expireDuration)),
+			IssuedAt:  jwt.At(time.Now()),
+		},
+		Username: user.Login,
+	})
+	return token.SignedString(a.signingKey)
+}
+
+func getPassWithSalt(pass, salt string) string {
+	pwd := sha1.New()
+	pwd.Write([]byte(pass))
+	pwd.Write([]byte(salt))
+	return string(pwd.Sum(nil))
 }

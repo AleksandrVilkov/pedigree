@@ -1,7 +1,5 @@
 package usecase
 
-import "context"
-
 type FamilyRepositoryInterface interface {
 	DeleteFamilyMember(key string) error
 	ReadFamilyMemberById(key string) (FamilyMember, error)
@@ -11,8 +9,8 @@ type FamilyRepositoryInterface interface {
 }
 
 type UserRepositoryInterface interface {
-	CreateUser(ctx context.Context, user *User) (int, error)
-	ReadUserById(ctx context.Context, username, password string) (User, error)
+	CreateUser(user *User) (int, error)
+	ReadUserById(username, password string) (User, error)
 }
 
 type PedigreeRepositoryInterface interface {
