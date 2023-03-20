@@ -8,7 +8,7 @@ auth:
 psql:
     login: pedigree
     password: root
-    sslmode: disable
-    drivername: postgres
-    databasename: pedigree
-    attemptsconnection: 3
+    ssl_mode: disable
+    driver_name: postgres
+    database_name: pedigree
+    attempts_connection: 3

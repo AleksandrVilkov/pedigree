@@ -9,26 +9,35 @@ import (
 	"os"
 	"os/signal"
 	"pedigree/internal/storage/postgreSQL/storage"
-	endpoints "pedigree/internal/transport/http"
+	authEndpoints "pedigree/internal/transport/http/auth"
+	"pedigree/internal/transport/http/familyMember"
 	"pedigree/internal/usecase"
 	"time"
 )
 
 type App struct {
+	//Сервер
 	httpServer *http.Server
-
-	AuthUseCase *usecase.AuthUseCase
+	//Бизнес-логика
+	authUsecase         *usecase.AuthUsecase
+	familyMemberUsecase *usecase.FamilyMemberUsecase
+	pedigreeUsecase     *usecase.PedigreeUsecase
 }
 
 func NewApp() *App {
-	userStorage := storage.UserStorage{}
+
 	return &App{
-		AuthUseCase: usecase.NewAuthUseCase(
-			&userStorage,
+		//Инициализируем логику авторизации пользователя
+		authUsecase: usecase.NewAuthUsecase(
+			&storage.UserStorage{},
 			viper.GetString("auth.hash_salt"),
 			[]byte(viper.GetString("auth.signing_key")),
 			viper.GetDuration("auth.token.ttl"),
-		)}
+		),
+		familyMemberUsecase: usecase.NewFamilyMemberUsecase(
+			&storage.FamilyMemberStorage{},
+		),
+	}
 }
 
 func (a *App) Run(port string) error {
@@ -38,8 +47,12 @@ func (a *App) Run(port string) error {
 		gin.Logger(),
 	)
 
-	//Регистрируем эндпоинты
-	endpoints.RegisterHTTPEndpoints(router, *a.AuthUseCase)
+	//Регистрируем эндпоинты авторизации
+	authEndpointsGroup := router.Group("/auth")
+	authEndpoints.RegisterHTTPEndpoints(authEndpointsGroup, a.authUsecase)
+	//Регистрируем эндпоинты по работе с членами семьи
+	fmEndpointsGroup := router.Group("/fm")
+	familyMember.RegisterHTTPEndpoints(fmEndpointsGroup, a.familyMemberUsecase)
 
 	a.httpServer = &http.Server{
 		Addr:           ":" + port,
