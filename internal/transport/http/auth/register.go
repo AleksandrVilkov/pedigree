@@ -2,10 +2,9 @@ package auth
 
 import (
 	"github.com/gin-gonic/gin"
-	"pedigree/internal/usecase"
 )
 
-func RegisterHTTPEndpoints(router *gin.RouterGroup, ac usecase.AuthUsecase) {
+func RegisterHTTPEndpoints(router *gin.RouterGroup, ac AuthUsecaseInterface) {
 
 	h := NewAuthHandler(&ac)
 	{

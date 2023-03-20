@@ -14,9 +14,9 @@ type Handler struct {
 	authUsecase AuthUsecaseInterface
 }
 
-func NewAuthHandler(authUseCase AuthUsecaseInterface) *Handler {
+func NewAuthHandler(authUseCase *AuthUsecaseInterface) *Handler {
 	return &Handler{
-		authUsecase: authUseCase,
+		authUsecase: *authUseCase,
 	}
 }
 
