@@ -61,6 +61,7 @@ func checkAuth(c *gin.Context) error {
 
 	err := jwt.ParseToken(headerParts[1], []byte(viper.GetString("auth.signing_key")))
 	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, err)
 		return err
 	}
 	return nil
