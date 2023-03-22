@@ -52,7 +52,7 @@ func (a *App) Run(port string) error {
 	authEndpoints.RegisterHTTPEndpoints(authEndpointsGroup, a.authUsecase)
 	//Регистрируем эндпоинты по работе с членами семьи
 	fmEndpointsGroup := router.Group("/fm")
-	familyMember.RegisterHTTPEndpoints(fmEndpointsGroup, a.familyMemberUsecase)
+	familyMember.RegisterHTTPEndpoints(fmEndpointsGroup, a.familyMemberUsecase, true)
 
 	a.httpServer = &http.Server{
 		Addr:           ":" + port,

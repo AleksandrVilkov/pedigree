@@ -10,7 +10,7 @@ type FamilyRepositoryInterface interface {
 
 type UserRepositoryInterface interface {
 	CreateUser(user *User) (int, error)
-	ReadUserById(username, password string) (User, error)
+	ReadUserByUserName(username string) (User, error)
 }
 
 type PedigreeRepositoryInterface interface {

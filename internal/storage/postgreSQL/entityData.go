@@ -2,6 +2,7 @@ package postgreSQL
 
 import (
 	"pedigree/internal/usecase"
+	"strconv"
 	"time"
 )
 
@@ -96,37 +97,53 @@ func toPedigreeData(p *usecase.Pedigree) *PedigreeData {
 
 type UserData struct {
 	ID              int
+	Login           string
 	CreatedDate     time.Time
 	LastUpdatedDate time.Time
 	Role            string
 	FirstName       string
 	LastName        string
-	Password        []byte
-	HasPedigree     bool
+	Password        string
+	HasPedigree     string
 }
 
 func (u *UserData) toModel() *usecase.User {
 	return &usecase.User{
-		ID:                   "",
-		CreatedDate:          time.Time{},
-		LastUpdatedDate:      time.Time{},
-		Role:                 0,
-		FirstName:            "",
-		LastName:             "",
-		Password:             nil,
+		ID:                   strconv.Itoa(u.ID),
+		CreatedDate:          u.CreatedDate,
+		LastUpdatedDate:      u.LastUpdatedDate,
+		Role:                 usecase.Role(u.Role),
+		FirstName:            u.FirstName,
+		LastName:             u.LastName,
+		Login:                u.Login,
+		Password:             []byte(u.Password),
 		CreatedPedigreesList: nil,
 	}
 }
 
-func toUserData(u *usecase.User) *UserData {
-	return &UserData{
-		ID:              0,
-		CreatedDate:     time.Time{},
-		LastUpdatedDate: time.Time{},
-		Role:            "",
-		FirstName:       "",
-		LastName:        "",
-		Password:        nil,
-		HasPedigree:     false,
+func ToUserData(u *usecase.User) (*UserData, error) {
+	res := &UserData{
+		CreatedDate:     u.CreatedDate,
+		LastUpdatedDate: u.LastUpdatedDate,
+		Role:            u.Role.String(),
+		FirstName:       u.FirstName,
+		LastName:        u.LastName,
+		Password:        string(u.Password),
 	}
+
+	if u.ID != "0" && u.ID != "" {
+		idStr, err := strconv.Atoi(u.ID)
+		if err != nil {
+			return nil, err
+		}
+		res.ID = idStr
+	}
+
+	if len(u.CreatedPedigreesList) > 0 {
+		res.HasPedigree = "true"
+	} else {
+		res.HasPedigree = "false"
+	}
+
+	return res, nil
 }
