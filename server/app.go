@@ -32,7 +32,7 @@ func NewApp() *App {
 			&storage.UserStorage{},
 			viper.GetString("auth.hash_salt"),
 			[]byte(viper.GetString("auth.signing_key")),
-			viper.GetDuration("auth.token.ttl"),
+			viper.GetDuration("auth.token_duration"),
 		),
 		familyMemberUsecase: usecase.NewFamilyMemberUsecase(
 			&storage.FamilyMemberStorage{},

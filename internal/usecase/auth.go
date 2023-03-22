@@ -1,12 +1,8 @@
 package usecase
 
 import (
-	"crypto/ecdsa"
-	"crypto/elliptic"
-	"crypto/rand"
 	"crypto/sha1"
 	"github.com/dgrijalva/jwt-go/v4"
-	"log"
 	pkgJwt "pedigree/pkg/jwt"
 	"time"
 )
@@ -53,21 +49,13 @@ func (a *AuthUsecase) SingIn(login, pass string) (string, error) {
 
 	//TODO чекать пароль
 
-	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-
-	if err != nil {
-		log.Print(err)
-		return "", err
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, &pkgJwt.Claims{
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &pkgJwt.Claims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: jwt.At(time.Now().Add(a.expireDuration)),
 			IssuedAt:  jwt.At(time.Now()),
 		},
-		Username: login,
 	})
-	return token.SignedString(key)
+	return token.SignedString(a.signingKey)
 }
 
 func getPassWithSalt(pass, salt string) string {

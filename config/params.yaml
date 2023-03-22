@@ -2,8 +2,9 @@ port: 2233
 
 auth:
     hash_salt: "hash_salt"
-    signing_key: "signing_key"
-    token_ttl: 86400
+    signing_key: "654684351849"
+    token_duration: 8640000000000
+
 
 psql:
     login: pedigree
