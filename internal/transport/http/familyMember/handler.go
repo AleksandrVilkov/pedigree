@@ -11,35 +11,37 @@ import (
 const BEARER = "Bearer"
 
 type Handler struct {
+	authEnabled         bool
 	familyMemberUsecase FmUsecaseInterface
 }
 
-func NewAuthHandler(fm FmUsecaseInterface) *Handler {
+func NewFmHandler(fm FmUsecaseInterface, authEnabled bool) *Handler {
 	return &Handler{
 		familyMemberUsecase: fm,
+		authEnabled:         authEnabled,
 	}
 }
 
 func (a *Handler) Save(c *gin.Context) {
-	if checkAuth(c) != nil {
+	if a.authEnabled && checkAuth(c) != nil {
 		return
 	}
 }
 
 func (a *Handler) Delete(c *gin.Context) {
-	if checkAuth(c) != nil {
+	if a.authEnabled && checkAuth(c) != nil {
 		return
 	}
 }
 
 func (a *Handler) Update(c *gin.Context) {
-	if checkAuth(c) != nil {
+	if a.authEnabled && checkAuth(c) != nil {
 		return
 	}
 }
 
 func (a *Handler) Find(c *gin.Context) {
-	if checkAuth(c) != nil {
+	if a.authEnabled && checkAuth(c) != nil {
 		return
 	}
 }

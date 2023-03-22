@@ -1,12 +1,12 @@
 package usecase
 
-type Role int
+type Role string
 
 const (
-	ADMIN   Role = 1
-	USER         = 2
-	GUEST        = 3
-	UNKNOWN      = 4
+	ADMIN   Role = "ADMIN"
+	USER         = "USER"
+	GUEST        = "GUEST"
+	UNKNOWN      = "UNKNOWN"
 )
 
 func (r Role) String() string {
