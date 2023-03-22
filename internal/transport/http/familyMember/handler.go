@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"net/http"
+	"pedigree/internal/usecase"
 	"pedigree/pkg/jwt"
 	"strings"
 )
@@ -26,6 +27,13 @@ func (a *Handler) Save(c *gin.Context) {
 	if a.authEnabled && checkAuth(c) != nil {
 		return
 	}
+	inp := new(usecase.FamilyMember)
+	if err := c.BindJSON(inp); err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	//id, err := a.familyMemberUsecase.Save(inp)
 }
 
 func (a *Handler) Delete(c *gin.Context) {

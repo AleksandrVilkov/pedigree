@@ -19,6 +19,7 @@ const (
 	VALUES      = "VALUES "
 	SELECT      = "SELECT "
 	FROM        = "FROM "
+	ALL         = "* "
 
 	DATE_PATTERN              = "2006-01-02"
 	FAMILY_MEMBERS_TABLE_NAME = "FAMILYMEMBERS "

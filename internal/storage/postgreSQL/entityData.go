@@ -97,13 +97,14 @@ func toPedigreeData(p *usecase.Pedigree) *PedigreeData {
 
 type UserData struct {
 	ID              int
+	Login           string
 	CreatedDate     time.Time
 	LastUpdatedDate time.Time
 	Role            string
 	FirstName       string
 	LastName        string
 	Password        string
-	HasPedigree     bool
+	HasPedigree     string
 }
 
 func (u *UserData) toModel() *usecase.User {
@@ -114,12 +115,13 @@ func (u *UserData) toModel() *usecase.User {
 		Role:                 usecase.Role(u.Role),
 		FirstName:            u.FirstName,
 		LastName:             u.LastName,
+		Login:                u.Login,
 		Password:             []byte(u.Password),
 		CreatedPedigreesList: nil,
 	}
 }
 
-func toUserData(u *usecase.User) (*UserData, error) {
+func ToUserData(u *usecase.User) (*UserData, error) {
 	res := &UserData{
 		CreatedDate:     u.CreatedDate,
 		LastUpdatedDate: u.LastUpdatedDate,
@@ -138,9 +140,9 @@ func toUserData(u *usecase.User) (*UserData, error) {
 	}
 
 	if len(u.CreatedPedigreesList) > 0 {
-		res.HasPedigree = true
+		res.HasPedigree = "true"
 	} else {
-		res.HasPedigree = false
+		res.HasPedigree = "false"
 	}
 
 	return res, nil
