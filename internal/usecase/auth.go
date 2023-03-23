@@ -8,13 +8,13 @@ import (
 )
 
 type AuthUsecase struct {
-	userRepository UserRepositoryInterface
+	userRepository IUserRepository
 	hashSalt       string
 	signingKey     []byte
 	expireDuration time.Duration
 }
 
-func NewAuthUsecase(userRepository UserRepositoryInterface,
+func NewAuthUsecase(userRepository IUserRepository,
 	hashSalt string,
 	signingKey []byte,
 	expireDuration time.Duration) *AuthUsecase {
