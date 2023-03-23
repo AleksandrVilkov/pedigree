@@ -111,8 +111,8 @@ func toPedigreeData(p *usecase.Pedigree) *PedigreeData {
 type UserData struct {
 	ID              int
 	Login           string
-	CreatedDate     time.Time
-	LastUpdatedDate time.Time
+	CreatedDate     string
+	LastUpdatedDate string
 	Role            string
 	FirstName       string
 	LastName        string
@@ -120,11 +120,13 @@ type UserData struct {
 	HasPedigree     string
 }
 
-func (u *UserData) toModel() *usecase.User {
+func (u *UserData) ToModel() *usecase.User {
+	createDate, _ := time.Parse(TEAMPLEATE_TIME, u.CreatedDate)
+	updateDate, _ := time.Parse(TEAMPLEATE_TIME, u.LastUpdatedDate)
 	return &usecase.User{
 		ID:                   strconv.Itoa(u.ID),
-		CreatedDate:          u.CreatedDate,
-		LastUpdatedDate:      u.LastUpdatedDate,
+		CreatedDate:          createDate,
+		LastUpdatedDate:      updateDate,
 		Role:                 usecase.Role(u.Role),
 		FirstName:            u.FirstName,
 		LastName:             u.LastName,
@@ -136,8 +138,9 @@ func (u *UserData) toModel() *usecase.User {
 
 func ToUserData(u *usecase.User) (*UserData, error) {
 	res := &UserData{
-		CreatedDate:     u.CreatedDate,
-		LastUpdatedDate: u.LastUpdatedDate,
+		Login:           u.Login,
+		CreatedDate:     u.CreatedDate.Format(TEAMPLEATE_TIME),
+		LastUpdatedDate: u.CreatedDate.Format(TEAMPLEATE_TIME),
 		Role:            u.Role.String(),
 		FirstName:       u.FirstName,
 		LastName:        u.LastName,

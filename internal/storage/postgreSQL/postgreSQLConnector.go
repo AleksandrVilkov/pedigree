@@ -11,11 +11,11 @@ import (
 )
 
 const (
-	PARAMS_PATH = "/home/vilkov/GolandProjects/pedigree/internal/storage/config/params.yaml"
+	PARAMS_PATH = "/home/vilkov/GolandProjects/pedigree/config/params.yaml"
 
 	INSERT_INTO = "INSERT INTO "
 	DELETE_FROM = "DELETE FROM"
-	WHERE       = "WHERE"
+	WHERE       = "WHERE "
 	VALUES      = "VALUES "
 	SELECT      = "SELECT "
 	FROM        = "FROM "
@@ -27,12 +27,14 @@ const (
 )
 
 type Params struct {
-	Login              string `yaml:"login"`
-	Password           string `yaml:"password"`
-	SslMode            string `yaml:"sslmode"`
-	DriverName         string `yaml:"drivername"`
-	DatabaseName       string `yaml:"databasename"`
-	AttemptsConnection int    `yaml:"attemptsconnection"`
+	Psql struct {
+		Login              string `yaml:"login"`
+		Password           string `yaml:"password"`
+		SslMode            string `yaml:"ssl_mode"`
+		DriverName         string `yaml:"driver_name"`
+		DatabaseName       string `yaml:"database_name"`
+		AttemptsConnection int    `yaml:"attempts_connection"`
+	}
 }
 
 type PostgreSQL struct {
@@ -45,11 +47,11 @@ func open() (*sql.DB, error) {
 	err = yaml.Unmarshal(paramsFile, &params)
 	checkError(err)
 
-	connStr := "user=" + params.Login + " password=" + params.Password + " dbname=" + params.DatabaseName + " sslmode=" + params.SslMode
+	connStr := "user=" + params.Psql.Login + " password=" + params.Psql.Password + " dbname=" + params.Psql.DatabaseName + " sslmode=" + params.Psql.SslMode
 	var db *sql.DB
 	//на случай, если не удалсь подключиться - пробуем несколько раз
-	for i := 0; i <= params.AttemptsConnection; i++ {
-		db, err = sql.Open(params.DriverName, connStr)
+	for i := 0; i <= params.Psql.AttemptsConnection; i++ {
+		db, err = sql.Open(params.Psql.DriverName, connStr)
 		if err != nil {
 			log.Println("Unsuccessful attempt to connect to DB: ", err)
 			time.Sleep(1000)

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"crypto/sha1"
+	"errors"
 	"github.com/dgrijalva/jwt-go/v4"
 	pkgJwt "pedigree/pkg/jwt"
 	"time"
@@ -34,20 +35,22 @@ func (a *AuthUsecase) SingUp(login, firstName, lastName, pass string) (int, erro
 		Login:                login,
 		FirstName:            firstName,
 		LastName:             lastName,
-		Password:             []byte(getPassWithSalt(pass, a.hashSalt)),
+		Password:             []byte(pass),
 		CreatedPedigreesList: nil,
 	}
 	return a.userRepository.CreateUser(user)
 }
 
 func (a *AuthUsecase) SingIn(login, pass string) (string, error) {
-	//user, err := a.userRepository.ReadUserById(login, getPassWithSalt(pass, a.hashSalt))
-	//
-	//if err != nil {
-	//	return "", err
-	//}
+	user, err := a.userRepository.ReadUserByUserName(login)
 
-	//TODO чекать пароль
+	if pass != string(user.Password) {
+		return "", errors.New("Invalid password")
+	}
+
+	if err != nil {
+		return "", err
+	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &pkgJwt.Claims{
 		StandardClaims: jwt.StandardClaims{
