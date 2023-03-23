@@ -6,6 +6,19 @@ import (
 	"time"
 )
 
+type Message struct {
+	Type MessageType
+	Text string
+}
+
+type MessageType string
+
+const (
+	ERROR   MessageType = "ERROR"
+	INFO                = "INFO"
+	WARNING             = "WARNING"
+)
+
 type FamilyMemberData struct {
 	ID                 int
 	PedigreeID         int

@@ -41,7 +41,6 @@ func (us *UserStorage) CreateUser(user *usecase.User) (int, error) {
 func (us *UserStorage) ReadUserByUserName(username string) (usecase.User, error) {
 	res := us.Psql.GetRow(postgreSQL.SELECT + postgreSQL.ALL + postgreSQL.FROM + TABLE_NAME + postgreSQL.WHERE +
 		"Login = '" + username + "'")
-
 	//TODO
 	fmt.Print(res)
 	return usecase.User{}, nil
