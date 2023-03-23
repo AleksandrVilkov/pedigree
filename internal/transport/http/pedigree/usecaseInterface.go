@@ -1,6 +1,6 @@
 package pedigree
 
-type pedigreeUsecaseInterface interface {
+type IPedigreeUsecase interface {
 	Save()
 	Delete()
 	Update()

@@ -1,6 +1,6 @@
 package usecase
 
-type FamilyRepositoryInterface interface {
+type IFamilyRepository interface {
 	DeleteFamilyMember(key string) error
 	ReadFamilyMemberById(key string) (FamilyMember, error)
 	UpdateFamilyMember(fm FamilyMember) FamilyMember
@@ -8,12 +8,12 @@ type FamilyRepositoryInterface interface {
 	ReadFamilyMembersByPedigreeUid(uid string) ([]FamilyMember, error)
 }
 
-type UserRepositoryInterface interface {
+type IUserRepository interface {
 	CreateUser(user *User) (int, error)
 	ReadUserByUserName(username string) (User, error)
 }
 
-type PedigreeRepositoryInterface interface {
+type IPedigreeRepository interface {
 	DeletePedigree(key string) error
 	ReadPedigreeById(key string) (Pedigree, error)
 	CreatePedigree(pedigree Pedigree) (int, error)

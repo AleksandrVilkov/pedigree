@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterHTTPEndpoints(router *gin.RouterGroup, ac AuthUsecaseInterface) {
+func RegisterHTTPEndpoints(router *gin.RouterGroup, ac IAuthUsecase) {
 
 	h := NewAuthHandler(&ac)
 	{

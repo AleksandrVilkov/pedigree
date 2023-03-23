@@ -4,7 +4,7 @@ import (
 	"pedigree/internal/usecase"
 )
 
-type FmUsecaseInterface interface {
+type IFmUsecase interface {
 	Save(u *usecase.FamilyMember) (int, error)
 	Delete()
 	Update()

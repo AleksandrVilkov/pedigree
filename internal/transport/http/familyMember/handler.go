@@ -13,10 +13,10 @@ const BEARER = "Bearer"
 
 type Handler struct {
 	authEnabled         bool
-	familyMemberUsecase FmUsecaseInterface
+	familyMemberUsecase IFmUsecase
 }
 
-func NewFmHandler(fm FmUsecaseInterface, authEnabled bool) *Handler {
+func NewFmHandler(fm IFmUsecase, authEnabled bool) *Handler {
 	return &Handler{
 		familyMemberUsecase: fm,
 		authEnabled:         authEnabled,

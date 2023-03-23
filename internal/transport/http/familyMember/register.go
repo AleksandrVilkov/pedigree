@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterHTTPEndpoints(router *gin.RouterGroup, fm FmUsecaseInterface, needAuth bool) {
+func RegisterHTTPEndpoints(router *gin.RouterGroup, fm IFmUsecase, needAuth bool) {
 
 	h := NewFmHandler(fm, needAuth)
 	{

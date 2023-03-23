@@ -1,10 +1,10 @@
 package usecase
 
 type FamilyMemberUsecase struct {
-	Repository FamilyRepositoryInterface
+	Repository IFamilyRepository
 }
 
-func NewFamilyMemberUsecase(fm FamilyRepositoryInterface) *FamilyMemberUsecase {
+func NewFamilyMemberUsecase(fm IFamilyRepository) *FamilyMemberUsecase {
 	return &FamilyMemberUsecase{
 		Repository: fm,
 	}

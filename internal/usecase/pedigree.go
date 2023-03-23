@@ -1,7 +1,7 @@
 package usecase
 
 type PedigreeUsecase struct {
-	pedigreeStorage PedigreeRepositoryInterface
+	pedigreeStorage IPedigreeRepository
 }
 
 // TODO

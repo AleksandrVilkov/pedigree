@@ -11,10 +11,10 @@ const (
 )
 
 type Handler struct {
-	authUsecase AuthUsecaseInterface
+	authUsecase IAuthUsecase
 }
 
-func NewAuthHandler(authUseCase *AuthUsecaseInterface) *Handler {
+func NewAuthHandler(authUseCase *IAuthUsecase) *Handler {
 	return &Handler{
 		authUsecase: *authUseCase,
 	}
