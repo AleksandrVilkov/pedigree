@@ -31,6 +31,7 @@ type User struct {
 
 type Pedigree struct {
 	ID              string
+	Name            string
 	CreatedDate     time.Time
 	LastUpdatedDate time.Time
 	OwnerUid        string

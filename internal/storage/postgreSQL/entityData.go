@@ -60,7 +60,7 @@ func (fmd *FamilyMemberData) toModel() *usecase.FamilyMember {
 	}
 }
 
-func toPostgreSQLFamilyMember(fm *usecase.FamilyMember) *FamilyMemberData {
+func toFamilyMemberData(fm *usecase.FamilyMember) *FamilyMemberData {
 	return &FamilyMemberData{
 		ID:                 0,
 		PedigreeID:         0,
@@ -83,29 +83,38 @@ func toPostgreSQLFamilyMember(fm *usecase.FamilyMember) *FamilyMemberData {
 
 type PedigreeData struct {
 	ID              int
-	CreatedDate     time.Time
-	LastUpdatedDate time.Time
-	OwnerID         int
+	Name            string
+	CreatedDate     string
+	LastUpdatedDate string
+	OwnerID         string
 }
 
 func (pd *PedigreeData) toModel() *usecase.Pedigree {
+	createDate, _ := time.Parse(TEAMPLEATE_TIME, pd.CreatedDate)
+	updateDate, _ := time.Parse(TEAMPLEATE_TIME, pd.LastUpdatedDate)
 	return &usecase.Pedigree{
 		ID:              "",
-		CreatedDate:     time.Time{},
-		LastUpdatedDate: time.Time{},
-		OwnerUid:        "",
+		Name:            pd.Name,
+		CreatedDate:     createDate,
+		LastUpdatedDate: updateDate,
+		OwnerUid:        pd.OwnerID,
 		PartOwners:      nil,
 		FamilyMembers:   nil,
 	}
 }
 
-func toPedigreeData(p *usecase.Pedigree) *PedigreeData {
-	return &PedigreeData{
-		ID:              0,
-		CreatedDate:     time.Time{},
-		LastUpdatedDate: time.Time{},
-		OwnerID:         0,
+func toPedigreeData(p *usecase.Pedigree) (*PedigreeData, error) {
+	id, err := strconv.Atoi(p.ID)
+	if err != nil {
+		return nil, err
 	}
+	return &PedigreeData{
+		ID:              id,
+		Name:            p.Name,
+		CreatedDate:     p.CreatedDate.Format(TEAMPLEATE_TIME),
+		LastUpdatedDate: p.LastUpdatedDate.Format(TEAMPLEATE_TIME),
+		OwnerID:         p.OwnerUid,
+	}, nil
 }
 
 type UserData struct {

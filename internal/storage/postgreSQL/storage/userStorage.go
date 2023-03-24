@@ -9,16 +9,16 @@ import (
 )
 
 const (
-	TABLE_NAME = "CLIENT "
+	USER_TABLE_NAME = "CLIENT "
 
-	CREATED_DATE_COLUMN = "createdDate"
-	LAST_UPDATED_COLUMN = "lastUpdatedDate"
-	ROLE_COLUMN         = "Role"
-	FIRST_NAME_COLUMN   = "FirstName"
-	LAST_NAME_COLUMN    = "LastName"
-	LOGIN_COLUMN        = "Login"
-	PASS_COLUMN         = "Password"
-	HAS_PEDIGREE        = "HasPedigree"
+	U_CREATED_DATE_COLUMN = "createdDate"
+	U_LAST_UPDATED_COLUMN = "lastUpdatedDate"
+	U_ROLE_COLUMN         = "Role"
+	U_FIRST_NAME_COLUMN   = "FirstName"
+	U_LAST_NAME_COLUMN    = "LastName"
+	U_LOGIN_COLUMN        = "Login"
+	U_PASS_COLUMN         = "Password"
+	U_HAS_PEDIGREE        = "HasPedigree"
 )
 
 type UserStorage struct {
@@ -49,15 +49,15 @@ func (us *UserStorage) CreateUser(user *usecase.User) (int, error) {
 }
 
 func (us *UserStorage) getCreateUserQuery(ud *postgreSQL.UserData) string {
-	return postgreSQL.INSERT_INTO + TABLE_NAME +
-		"(" + CREATED_DATE_COLUMN + ", " +
-		LAST_UPDATED_COLUMN + ", " +
-		ROLE_COLUMN + ", " +
-		FIRST_NAME_COLUMN + " ," +
-		LAST_NAME_COLUMN + ", " +
-		LOGIN_COLUMN + ", " +
-		PASS_COLUMN + ", " +
-		HAS_PEDIGREE + ") " +
+	return postgreSQL.INSERT_INTO + USER_TABLE_NAME +
+		"(" + U_CREATED_DATE_COLUMN + ", " +
+		U_LAST_UPDATED_COLUMN + ", " +
+		U_ROLE_COLUMN + ", " +
+		U_FIRST_NAME_COLUMN + " ," +
+		U_LAST_NAME_COLUMN + ", " +
+		U_LOGIN_COLUMN + ", " +
+		U_PASS_COLUMN + ", " +
+		U_HAS_PEDIGREE + ") " +
 		postgreSQL.VALUES + "(" +
 		" '" + ud.CreatedDate + "', " +
 		" '" + ud.LastUpdatedDate + "', " +
@@ -89,6 +89,6 @@ func (us *UserStorage) ReadUserByUserName(username string) (usecase.User, error)
 }
 
 func (us *UserStorage) getReadUserByUserNameQuery(username string) string {
-	return postgreSQL.SELECT + postgreSQL.ALL + postgreSQL.FROM + TABLE_NAME + postgreSQL.WHERE +
+	return postgreSQL.SELECT + postgreSQL.ALL + postgreSQL.FROM + USER_TABLE_NAME + postgreSQL.WHERE +
 		"Login = '" + username + "'"
 }
