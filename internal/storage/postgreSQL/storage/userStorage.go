@@ -1,9 +1,11 @@
 package storage
 
 import (
+	"errors"
 	"fmt"
 	"pedigree/internal/storage/postgreSQL"
 	"pedigree/internal/usecase"
+	"strconv"
 )
 
 const (
@@ -35,8 +37,15 @@ func (us *UserStorage) CreateUser(user *usecase.User) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	//TODO return id from psql
-	return 0, nil
+	usr, errRead := us.ReadUserByUserName(user.Login)
+	if errRead != nil {
+		return 0, errors.New("user was created, but it was not possible to get ID")
+	}
+	id, errId := strconv.Atoi(usr.ID)
+	if errId != nil {
+		return 0, errors.New("not valid user ID")
+	}
+	return id, nil
 }
 
 func (us *UserStorage) getCreateUserQuery(ud *postgreSQL.UserData) string {
@@ -59,11 +68,20 @@ func (us *UserStorage) getCreateUserQuery(ud *postgreSQL.UserData) string {
 		" '" + ud.Password + "', " +
 		" '" + ud.HasPedigree + "')"
 }
+
 func (us *UserStorage) ReadUserByUserName(username string) (usecase.User, error) {
 	q := us.getReadUserByUserNameQuery(username)
 	res := us.Psql.GetRow(q)
 	var ud postgreSQL.UserData
-	err := res.Scan(&ud.ID, &ud.CreatedDate, &ud.LastUpdatedDate, &ud.Role, &ud.FirstName, &ud.LastName, &ud.Login, &ud.Password, &ud.HasPedigree)
+	err := res.Scan(&ud.ID,
+		&ud.CreatedDate,
+		&ud.LastUpdatedDate,
+		&ud.Role,
+		&ud.FirstName,
+		&ud.LastName,
+		&ud.Login,
+		&ud.Password,
+		&ud.HasPedigree)
 	if err != nil {
 		return usecase.User{}, nil
 	}
